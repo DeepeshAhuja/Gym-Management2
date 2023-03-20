@@ -16,6 +16,10 @@ nav ul li{
     list-style-type: none;
 }
 
+nav > ul > li:hover{
+    background-color: #fff;
+}
+
 nav > ul > li > a{
     color: #aaa;
     display: block;
@@ -38,4 +42,8 @@ nav > ul > li > a{
 .bg-div{
    background:#333;
    overflow: hidden;
+}
+
+body{
+    margin: auto;
 }

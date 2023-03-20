@@ -1,7 +1,8 @@
-{% extends base.html%}
+{% extends 'base.html' %}
 {% block head %}
 <title>Gym Management</title>
 <link rel="stylesheet" href="../static/css/style.css">
+<script src="../static/js/highlight.js"></script>
 {% endblock %}
 {% block body %}
 <div class="bg-div">
@@ -10,9 +11,9 @@
     <nav>
         <ul>
 <li><a href="{{url_for('index')}}">Home</a></li>
-<li><a href="{{url_for('education')}}">Membership</a></li>
-<li><a href="{{url_for('volunteer')}}">Profile</a></li>
-<li><a href="{{url_for('contact')}}">Attendance</a></li>
+<li><a href="{{url_for('index')}}">Membership</a></li>
+<li><a href="{{url_for('index')}}">Profile</a></li>
+<li><a href="{{url_for('index')}}">Attendance</a></li>
 <li>{% block y %}
     {% if session.username %}
         <a href="/logout">Logout</a>
@@ -20,7 +21,13 @@
         <a href="/login">Login</a>
     {% endif %}
     {% endblock %}</li>
-<li><a href="{{url_for('signup')}}">Become a member</a></li>
+<li>{% block z %}
+    {% if session.username %}
+        <a href="/profile">Profile</a>
+    {% else %}
+        <a href="/signup">Become a Member</a>
+    {% endif %}
+    {% endblock %}</li>
 </ul>
 </nav>
 </div>
