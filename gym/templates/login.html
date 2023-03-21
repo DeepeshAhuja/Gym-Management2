@@ -1,6 +1,8 @@
 {% extends 'base.html'%}
 {% block head %}
 <title>Login</title>
+<link rel="stylesheet" href="../static/css/login.css">
+<link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" type="image/x-icon">
 {% endblock %}
 {% block body %}
 <div class="bg-div">
@@ -9,9 +11,9 @@
     <nav>
         <ul>
             <li><a href="{{url_for('index')}}">Home</a></li>
-            <li><a href="{{url_for('index')}}">Membership</a></li>
-            <li><a href="{{url_for('index')}}">Profile</a></li>
-            <li><a href="{{url_for('index')}}">Attendance</a></li>
+            <li><a href="{{url_for('membership')}}">Membership</a></li>
+            <li><a href="{{url_for('profile')}}">Profile</a></li>
+            <li><a href="{{url_for('attendance')}}">Attendance</a></li>
 
             <li>{% block y %}
                 {% if session.username %}
@@ -29,21 +31,24 @@
                 {% endblock %}</li>
         </ul>
     </nav>
-
+    </div>
     <div id="login-form-wrap">
-        <video autoplay loop muted plays-inline class="background-clip">
-          <source src = "../static/video/edu.mp4" type = "video/mp4">
-      </video>
-        <h2>Login</h2>
+<table>
+    <td>
+    
+        <h2>User Login</h2>
         {% if message is defined and message %}
                           <div class="alert">
                               <h3>{{message}}</h3>
                           </div>
                           {% endif %}  
         <form action="{{url_for('login')}}" id="login-form" method="post">
-          <p>
+          <!-- <p>
           <input type="text" id="username" name="username" placeholder="Username" required><i class="validation"></i>
-          </p>
+          </p> -->
+          <p>
+            <input type="email" id="email" name="email" placeholder="Email" required><i class="validation"></i>
+            </p>
           <p>
           <input type="password" id="password" name="password" placeholder="Password" required><i class="validation"></i>
           </p>
@@ -54,6 +59,33 @@
         <div id="create-account-wrap">
           <p>Not a member? <a href="{{url_for('signup')}}"><b>Create Account</b></a><p>
         </div><!--create-account-wrap-->
+      </div><!--login-form-wrap-->
+      <!-- partial -->
+    </td>
+    <td>
+      <div id="login-form-wrap">
+        <h2>Admin Login</h2>
+        {% if message is defined and message %}
+                          <div class="alert">
+                              <h3>{{message}}</h3>
+                          </div>
+                          {% endif %}  
+        <form action="{{url_for('admin_login')}}" id="login-form" method="post">
+          <!-- <p>
+          <input type="text" id="username" name="username" placeholder="Username" required><i class="validation"></i>
+          </p> -->
+          <p>
+            <input type="email" id="email" name="email" placeholder="Email" required><i class="validation"></i>
+            </p>
+          <p>
+          <input type="password" id="password" name="password" placeholder="Password" required><i class="validation"></i>
+          </p>
+          <p>
+          <input type="submit" id="login" value="Login">
+          </p>
+        </form>
+    </td>
+</table>
       </div><!--login-form-wrap-->
       <!-- partial -->
     
