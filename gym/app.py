@@ -20,23 +20,44 @@ mysql=MySQL(app)
 def index():
     return render_template("index.html")
 
-@app.route('/profile', methods=['POST','GET'])
+@app.route('/profile')
 def profile():
-    # if session['username']:
-    #     if method=='POST':
-    #         username=request.form.get('username')
-    #         email=request.form.get('email')
-    #         
-    return render_template("profile.html")
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select first_name,last_name,address,gender,email,mobile,workouts,billing_no,billing_date,batch,mem_category,reg_date,sub_status,reg_fee from members where email='{}';".format(session['email'])) 
+    mysql.connection.commit()
+    user=cursor.fetchone()
+    return render_template("profile.html",user=user)
 
-@app.route('/membership')
+@app.route('/membership', methods=['POST','GET'])
 def membership():
-
+    if request.method=='POST' :
+        first_name=request.form.get('fname')
+        last_name=request.form.get('lname')
+        address=request.form.get('address')
+        email=request.form.get('email')
+        phone=request.form.get('phone')
+        gender=request.form.get('gender')
+        workouts=request.form.get('workout')
+        membership=request.form.get('membership')
+        billingno= request.form.get('Billing No')
+        billdate=request.form.get('Billing date')
+        batchmem= request.form.get('Batch Membership')
+        regdate=request.form.get('Register date')
+        status= request.form.get("status") 
+        regfees=request.form.get("Registration Fees")
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("INSERT INTO members (first_name,last_name,address,gender,email,mobile,workouts,billing_no,billing_date,batch,mem_category,reg_date,sub_status,reg_fee) VALUES ('{}','{}','{}','{}','{}','{}','{}',{},'{}','{}','{}','{}','{}',{});".format(first_name, last_name,address,gender,email,phone,workouts,billingno,billdate,batchmem,membership,regdate,status,regfees))
+        mysql.connection.commit()
+        # user=cursor.fetchone()
     return render_template("membership.html")
 
-@app.route('/attendance')
+@app.route('/attendance',methods=['POST','GET'])
 def attendance():
-    return render_template("attendance.html")
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select id from members where email='{}';".format(session['email'])) 
+    mysql.connection.commit()
+    user=cursor.fetchone()
+    return render_template("attendance.html",user=user)
 
 @app.route('/login',methods=['GET','POST'])
 def login():

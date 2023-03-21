@@ -2,32 +2,63 @@
 {% block head %}
 <title>Attendance</title>
 <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" type="image/x-icon">
-<link rel="stylesheet" href="../static/css/style.css">
+<link rel="stylesheet" href="../static/css/attendance.css">
 {% endblock %}
 {% block body %}
 <div class="bg-div">
-    <a class="logo-img" href="{{url_for('index')}}"><img height="18" weight="20"  src="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" alt="icon"></a>
+    <a class="logo-img" href="{{url_for('index')}}"><img height="22" width="22"  src="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" alt="icon"></a>
     <a class="web-name" href="{{url_for('index')}}">Fit360</a> 
     <nav>
         <ul>
-            <li><a href="{{url_for('index')}}">Home</a></li>
-            <li><a href="{{url_for('index')}}">Membership</a></li>
-            <li><a href="{{url_for('index')}}">Profile</a></li>
-            <li><a href="{{url_for('index')}}">Attendance</a></li>
-            <li>{% block y %}
-                {% if session.username %}
-                    <a href="/logout">Logout</a>
-                {% else %}
-                    <a href="/login">Login</a>
-                {% endif %}
-                {% endblock %}</li>
-            <li>{% block z %}
-                {% if session.username %}
-                    <a href="/profile">Profile</a>
-                {% else %}
-                    <a href="/signup">Become a Member</a>
-                {% endif %}
-                {% endblock %}</li>
-        </ul>
-    </nav>
+<li><a href="{{url_for('index')}}">Home</a></li>
+<li><a href="{{url_for('membership')}}">Membership</a></li>
+<li><a href="{{url_for('profile')}}">Profile</a></li>
+<li><a href="{{url_for('attendance')}}">Attendance</a></li>
+<li>{% block y %}
+    {% if session.email %}
+        <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+    {% endblock %}</li>
+<li>{% block z %}
+    {% if session.email %}
+        <a href="/profile">Profile</a>
+    {% else %}
+        <a href="/signup">Become a Member</a>
+    {% endif %}
+    {% endblock %}</li>
+</ul>
+</nav>
+</div>
+<form action="/attendance">
+<h1>MEMBERS ATTENDENCE</h1>
+<table id="customers" style="width:100%">
+  <tr>
+    <th>PRESENT</th>
+    <th>DATE</th>
+    <th>MEMBER ID</th>
+    <th>FIRST NAME </th>
+    <th>LAST NAME</th>
+    <th>MOBLIE NUMBER</th>
+  </tr>
+  <tr>
+    <td>
+    <label class="control control--checkbox">
+     <input type="checkbox">
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+     <td></td>
+  </tr>
+</table><br>
+<tr>
+  <td><label><b>Date:</b></label>
+    </td>
+    <input type="date" name="date" value="date">
+    <input type="submit" value="Submit">
+</form> 
 {% endblock %}
+

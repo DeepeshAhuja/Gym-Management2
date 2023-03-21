@@ -109,3 +109,11 @@ nav > ul > li > a{
 body{
   margin: auto;
 }
+svg{
+  /* width: 100%;
+  height: 100%; */
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}

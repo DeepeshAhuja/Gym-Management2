@@ -1,0 +1,4 @@
+@app.route('/membership',methods=['GET','POST'])
+def membership():
+    if request.method=='POST' and request.form[]
+    return render_template("membership.html")
