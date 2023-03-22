@@ -6,54 +6,53 @@
 {% endblock %}
 {% block body %}
 <div class="bg-div">
-    <a class="logo-img" href="{{url_for('index')}}"><img height="22" width="22"  src="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" alt="icon"></a>
-    <a class="web-name" href="{{url_for('index')}}">Fit360</a> 
-    <nav>
-        <ul>
+<a class="logo-img" href="{{url_for('index')}}"><img height="22" width="22"  src="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" alt="icon"></a>
+<a class="web-name" href="{{url_for('index')}}">Fit360</a> 
+<nav>
+    <ul>
 <li><a href="{{url_for('index')}}">Home</a></li>
 <li><a href="{{url_for('membership')}}">Membership</a></li>
-<!-- <li><a href="{{url_for('profile')}}">Profile</a></li> -->
 <li><a href="{{url_for('attendance')}}">Attendance</a></li>
 <li>{% block y %}
-    {% if session.email %}
-        <a href="/logout">Logout</a>
-    {% else %}
-        <a href="/login">Login</a>
-    {% endif %}
-    {% endblock %}</li>
+{% if session.email %}
+    <a href="/logout">Logout</a>
+{% else %}
+    <a href="/login">Login</a>
+{% endif %}
+{% endblock %}</li>
 <li>{% block z %}
-    {% if session.email %}
-        <a href="/profile">Profile</a>
-    {% else %}
-        <a href="/signup">Become a Member</a>
-    {% endif %}
-    {% endblock %}</li>
+{% if session.email %}
+    <a href="/profile">Profile</a>
+{% else %}
+    <a href="/signup">Become a Member</a>
+{% endif %}
+{% endblock %}</li>
 </ul>
 </nav>
 </div>
 <div class="wrap-layer">
 <div class="text-layer">
 <table>
-    <td>
-        <div id="login-form-wrap">
-        <h1>WELCOME TO FIT360</h1>
-        <h2>BE THE CHANGE</h2>
-        <p>Exercise not only changes your body. <br>
-            It changes your mind, your attitude, and your mood.
-          </p>
-    </div>
-        </td>
-    <td>
-        <img src="../static/img/gym.jpg" alt="gym" height="500px" width="90%">
+<td>
+    <div id="login-form-wrap">
+    <h1>WELCOME TO FIT360</h1>
+    <h2>BE THE CHANGE</h2>
+    <p>Exercise not only changes your body. <br>
+        It changes your mind, your attitude, and your mood.
+        </p>
+</div>
     </td>
+<td>
+    <img src="../static/img/gym.jpg" alt="gym" height="500px" width="90%">
+</td>
 </table>
 </div>
 <div class="background-layer">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill="rgb(232, 60, 0)" fill-opacity="1" d="M0,288L18.5,261.3C36.9,235,74,181,111,181.3C147.7,181,185,235,222,229.3C258.5,224,295,160,332,149.3C369.2,139,406,181,443,170.7C480,160,517,96,554,64C590.8,32,628,32,665,53.3C701.5,75,738,117,775,133.3C812.3,149,849,139,886,122.7C923.1,107,960,85,997,96C1033.8,107,1071,149,1108,186.7C1144.6,224,1182,256,1218,224C1255.4,192,1292,96,1329,69.3C1366.2,43,1403,85,1422,106.7L1440,128L1440,0L1421.5,0C1403.1,0,1366,0,1329,0C1292.3,0,1255,0,1218,0C1181.5,0,1145,0,1108,0C1070.8,0,1034,0,997,0C960,0,923,0,886,0C849.2,0,812,0,775,0C738.5,0,702,0,665,0C627.7,0,591,0,554,0C516.9,0,480,0,443,0C406.2,0,369,0,332,0C295.4,0,258,0,222,0C184.6,0,148,0,111,0C73.8,0,37,0,18,0L0,0Z"></path>
-    </svg>
- </div>
- <div style="background-color: #333; padding-bottom: 356px;"></div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="rgb(232, 60, 0)" fill-opacity="1" d="M0,288L18.5,261.3C36.9,235,74,181,111,181.3C147.7,181,185,235,222,229.3C258.5,224,295,160,332,149.3C369.2,139,406,181,443,170.7C480,160,517,96,554,64C590.8,32,628,32,665,53.3C701.5,75,738,117,775,133.3C812.3,149,849,139,886,122.7C923.1,107,960,85,997,96C1033.8,107,1071,149,1108,186.7C1144.6,224,1182,256,1218,224C1255.4,192,1292,96,1329,69.3C1366.2,43,1403,85,1422,106.7L1440,128L1440,0L1421.5,0C1403.1,0,1366,0,1329,0C1292.3,0,1255,0,1218,0C1181.5,0,1145,0,1108,0C1070.8,0,1034,0,997,0C960,0,923,0,886,0C849.2,0,812,0,775,0C738.5,0,702,0,665,0C627.7,0,591,0,554,0C516.9,0,480,0,443,0C406.2,0,369,0,332,0C295.4,0,258,0,222,0C184.6,0,148,0,111,0C73.8,0,37,0,18,0L0,0Z"></path>
+</svg>
+</div>
+<div style="background-color: #333; padding-bottom: 356px;"></div>
 </div>
 
 {% endblock %}
