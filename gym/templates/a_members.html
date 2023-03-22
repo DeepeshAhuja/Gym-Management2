@@ -2,6 +2,7 @@
 {% block head %}
 <title>Members</title>
 <link rel="stylesheet" href="../static/css/a_members.css">
+<link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" type="image/x-icon">
 {% endblock %}
 {% block body %}
 <div class="bg-div">
@@ -11,8 +12,8 @@
         <ul>
             <li><a href="{{url_for('admin')}}">Home</a></li>
             <li><a href="{{url_for('admin_members')}}">Membership</a></li>
-            <!-- <li><a href="{{url_for('profile')}}">Profile</a></li>
-            <li><a href="{{url_for('attendance')}}">Attendance</a></li> -->
+            <!-- <li><a href="{{url_for('profile')}}">Profile</a></li> -->
+            <li><a href="{{url_for('admin_attendance')}}">Attendance</a></li>
             <li>{% block y %}
                 {% if session.email %}
                     <a href="/logout2">Logout</a>
@@ -23,6 +24,8 @@
         </ul>
     </nav>
 </div>
+
+ 
 <div class="wrap-layer">
     <div class="text-layer">
       <div class="background-layer">
@@ -31,7 +34,7 @@
       </svg>
       </div>
 {% if user|length == 0 %}
-  <div><h3>
+  <div style="background-color: #333; height:100%;"><h3>
     No Members</h3></div>
   {% else %} 
     <h1>Members</h1>
@@ -43,7 +46,8 @@
     <th>FIRST NAME </th>
     <th>LAST NAME</th>
     <th>MOBLIE NUMBER</th>
-    <th>Email</th>
+    <th>EMAIL</th>
+    <!-- <th>ACTIONS</th> -->
   </tr>
   {% for user in user %}
   <tr>
@@ -53,11 +57,14 @@
     <td>{{user.last_name}}</td>
      <td>{{user.mobile}}</td>
      <td>{{user.email}}</td>
+     <!-- <td><a href="/delete/<string:email>">Delete</td> -->
   </tr>
   {% endfor %}
 </table>
-<div style="background-color: #333; padding-bottom: 356px;"></div>
-</div>
-</div>
 {% endif %}
+
+<div style="background-color: #333; padding-bottom: 356px; height:100%;"></div>
+</div>
+</div>
+
 {% endblock %}

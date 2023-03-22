@@ -52,6 +52,8 @@ def membership():
         status= request.form.get("status") 
         regfees=request.form.get("Registration Fees")
         cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        # if billingno:
+        
         cursor.execute("INSERT INTO members (first_name,last_name,address,gender,email,mobile,workouts,billing_no,billing_date,batch,mem_category,reg_date,sub_status,reg_fee) VALUES ('{}','{}','{}','{}','{}','{}','{}',{},'{}','{}','{}','{}','{}',{});".format(first_name, last_name,address,gender,email,phone,workouts,billingno,billdate,batchmem,membership,regdate,status,regfees))
         mysql.connection.commit()
         # user=cursor.fetchone()
@@ -62,24 +64,25 @@ def membership():
 def attendance():
     if not session.get("email"):
         return redirect("/login")
-    date=f"{datetime.datetime.now():%Y-%m-%d}"
-    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("select id,first_name,last_name,mobile,email from members where email='{}';".format(session['email'])) 
-    mysql.connection.commit()
-    user=cursor.fetchone()
-    if user['email']:
-        if request.method=='POST':
-            # date=f"{datetime.datetime.now():%Y-%m-%d}"
-            # cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            # cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
-            # mysql.connection.commit()
-            # user=cursor.fetchone()
-            attendance=request.form.get('attendance')
-            cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute("INSERT INTO attendance (id,present,date) VALUES ('{}','{}','{}');".format(user['id'],attendance,date))
-            mysql.connection.commit()
     else:
-        return redirect('/membership')   
+        try:
+            date=f"{datetime.datetime.now():%Y-%m-%d}"
+            cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("select id,first_name,last_name,mobile,email from members where email='{}';".format(session['email'])) 
+            mysql.connection.commit()
+            user=cursor.fetchone()
+            if request.method=='POST':
+                # date=f"{datetime.datetime.now():%Y-%m-%d}"
+                # cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                # cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
+                # mysql.connection.commit()
+                # user=cursor.fetchone()
+                attendance=request.form.get('attendance')
+                cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+                cursor.execute("INSERT INTO attendance (id,present,date) VALUES ('{}','{}','{}');".format(user['id'],attendance,date))
+                mysql.connection.commit()
+        except:
+            return redirect('/membership') 
     return render_template("attendance.html",user=user,date=date)
 
 @app.route('/time_attendance',methods=['POST','GET'])
@@ -94,6 +97,20 @@ def time_attendance():
         mysql.connection.commit()
         attendance=cursor.fetchall()
     return render_template("attendance.html",user=user,attendance=attendance)
+
+@app.route('/admin_attendance',methods=['POST','GET'])
+def admin_attendance():
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select * from members;") 
+    mysql.connection.commit()
+    user=cursor.fetchall()
+    for i in range(len(user)):
+        date=request.form.get('date')
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("select * from attendance where id={} and present='Present' and date='{}';".format(user[i]['id'],date)) 
+        mysql.connection.commit()
+        attendance=cursor.fetchall()
+    return render_template('a_attendance.html',user=user,attendance=attendance)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -157,13 +174,29 @@ def logout2():
     session["email"] = None
     return redirect("/admin")
 
-@app.route("/admin_members")
+@app.route("/admin_members", methods=['POST','GET'])
 def admin_members():
     cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("select * from members;") 
     mysql.connection.commit()
-    user=cursor.fetchall()  
+    user=cursor.fetchall()
+    # if request.method=="POST" and request.form['delete']:
+    #     email=request.form['email1']
+    #     cursor.execute("delete from members where email='{}'".format(email))
+    #     mysql.connection.commit()
+    #     return render_template("delete.html")
     return render_template('a_members.html',user=user)
+
+
+
+# @app.route('/delete/<string:email>')
+# def delete(email):
+#     cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#     cursor.execute("delete from members where email='{}'".format(email))
+#     mysql.connection.commit()
+#     return render_template("a_members.html")
+
+
 
 if __name__=="__main__":
     app.run(debug=True,port=8000)

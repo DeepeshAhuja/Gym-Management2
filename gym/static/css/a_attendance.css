@@ -99,9 +99,9 @@ body{
     position: absolute;
     width: 100%;
     height: auto;
-    padding-bottom: 300px;
     top: 0;
     left: 0;
     text-align: center;
+    padding-bottom: 120px;
     /* non-critical styles left out */
 }
