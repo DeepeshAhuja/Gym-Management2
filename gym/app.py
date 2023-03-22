@@ -3,6 +3,7 @@ from flask_mysqldb import MySQLdb,MySQL
 import MySQLdb.cursors
 from flask_session import Session
 from flask_mail import Mail, Message
+import datetime
 
 app= Flask(__name__)
 app.secret_key = 'abcdefg123'
@@ -22,15 +23,20 @@ def index():
 
 @app.route('/profile')
 def profile():
-    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("select first_name,last_name,address,gender,email,mobile,workouts,billing_no,billing_date,batch,mem_category,reg_date,sub_status,reg_fee from members where email='{}';".format(session['email'])) 
-    mysql.connection.commit()
-    user=cursor.fetchone()
+    if not session.get("email"):
+        return redirect("/login")
+    else:
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("select first_name,last_name,address,gender,email,mobile,workouts,billing_no,billing_date,batch,mem_category,reg_date,sub_status,reg_fee from members where email='{}';".format(session['email'])) 
+        mysql.connection.commit()
+        user=cursor.fetchone()
     return render_template("profile.html",user=user)
 
 @app.route('/membership', methods=['POST','GET'])
 def membership():
-    if request.method=='POST' :
+    if not session.get("email"):
+        return redirect("/login")
+    elif request.method=='POST' :
         first_name=request.form.get('fname')
         last_name=request.form.get('lname')
         address=request.form.get('address')
@@ -53,11 +59,37 @@ def membership():
 
 @app.route('/attendance',methods=['POST','GET'])
 def attendance():
+    date=f"{datetime.datetime.now():%Y-%m-%d}"
     cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("select id from members where email='{}';".format(session['email'])) 
+    cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
     mysql.connection.commit()
     user=cursor.fetchone()
-    return render_template("attendance.html",user=user)
+    if not session.get("email"):
+        return redirect("/login")
+    elif request.method=='POST':
+        # date=f"{datetime.datetime.now():%Y-%m-%d}"
+        # cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        # cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
+        # mysql.connection.commit()
+        # user=cursor.fetchone()
+        attendance=request.form.get('attendance')
+        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute("INSERT INTO attendance (id,present,date) VALUES ('{}','{}','{}');".format(user['id'],attendance,date))
+        mysql.connection.commit()
+    return render_template("attendance.html",user=user,date=date)
+
+@app.route('/time_attendance',methods=['POST','GET'])
+def time_attendance():
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
+    mysql.connection.commit()
+    user=cursor.fetchone()
+    if request.method == 'POST':
+        date=request.form['date']
+        cursor.execute("select id,present,date from attendance where date='{}';".format(date)) 
+        mysql.connection.commit()
+        attendance=cursor.fetchall()
+    return render_template("attendance.html",user=user,attendance=attendance)
 
 @app.route('/login',methods=['GET','POST'])
 def login():

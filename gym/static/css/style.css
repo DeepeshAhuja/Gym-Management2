@@ -1,52 +1,96 @@
-/* Navigation */
-nav{
+  /* Navigation */
+  nav{
     float: right;
     margin: 0;
     overflow:hidden;
     text-align: center;
-}
-
-nav ul{
+  }
+  
+  nav ul{
     margin: 0;
     padding: 0;
-}
-
-nav ul li{
+  }
+  
+  nav ul li{
     display: inline-block;
     list-style-type: none;
-}
-
-nav > ul > li:hover{
+  }
+  
+  nav > ul > li:hover{
     background-color: #fff;
-}
-
-nav > ul > li > a{
+  }
+  
+  nav > ul > li > a{
     color: #aaa;
     display: block;
     line-height: 2em;
     padding: 0.5em 1em;
     text-decoration: none;
-}
-
-.web-name{
+  }
+  
+  .web-name{
     color: #aaa;
     line-height: 3em;
     text-decoration: none;
-}
-
-.logo-img{
+  }
+  
+  .logo-img{
     float: left;
     position: relative;
     margin: 15px 5px 15px 10px;
-}
-.bg-div{
+  }
+  .bg-div{
    background:#333;
    overflow: hidden;
-}
-
-body{
+  }
+  body{
     margin: auto;
-}
+    /* background-color: #333; */
+  }
+  /* svg{ 
+     position: sticky;
+    top: 0;
+    left: 0;
+    z-index: -1; 
+    } */
+  table{
+    padding-top: 190px;
+    display: flexbox;
+    text-align: left;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  #login-form-wrap {
+    /* background-color: #fff; */
+    width: 75%;
+    margin: 30px auto;
+    text-align: center;
+    padding: 20px;
+    /* border-radius: auto; */
+    box-shadow: 0px 0px 30px 10px rgba(255, 255, 255, 0.2);
+    /* background: transparent; */
+    color: white;
+  }
+
+
+
+  .wrap-layer{
+    position: relative;
+    background-color: #333;
+ }
+ .text-layer{
+    /* background-color: #333; */
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    /* non-critical styles left out */
+ }
 
  /*=====================================
       PRELOADER STYLES 
