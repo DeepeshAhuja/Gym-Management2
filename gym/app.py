@@ -40,7 +40,7 @@ def membership():
         first_name=request.form.get('fname')
         last_name=request.form.get('lname')
         address=request.form.get('address')
-        email=request.form.get('email')
+        email=session['email']
         phone=request.form.get('phone')
         gender=request.form.get('gender')
         workouts=request.form.get('workout')
@@ -57,25 +57,29 @@ def membership():
         # user=cursor.fetchone()
     return render_template("membership.html")
 
+
 @app.route('/attendance',methods=['POST','GET'])
 def attendance():
-    date=f"{datetime.datetime.now():%Y-%m-%d}"
-    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
-    mysql.connection.commit()
-    user=cursor.fetchone()
     if not session.get("email"):
         return redirect("/login")
-    elif request.method=='POST':
-        # date=f"{datetime.datetime.now():%Y-%m-%d}"
-        # cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        # cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
-        # mysql.connection.commit()
-        # user=cursor.fetchone()
-        attendance=request.form.get('attendance')
-        cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute("INSERT INTO attendance (id,present,date) VALUES ('{}','{}','{}');".format(user['id'],attendance,date))
-        mysql.connection.commit()
+    date=f"{datetime.datetime.now():%Y-%m-%d}"
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select id,first_name,last_name,mobile,email from members where email='{}';".format(session['email'])) 
+    mysql.connection.commit()
+    user=cursor.fetchone()
+    if user['email']:
+        if request.method=='POST':
+            # date=f"{datetime.datetime.now():%Y-%m-%d}"
+            # cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            # cursor.execute("select id,first_name,last_name,mobile from members where email='{}';".format(session['email'])) 
+            # mysql.connection.commit()
+            # user=cursor.fetchone()
+            attendance=request.form.get('attendance')
+            cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute("INSERT INTO attendance (id,present,date) VALUES ('{}','{}','{}');".format(user['id'],attendance,date))
+            mysql.connection.commit()
+    else:
+        return redirect('/membership')   
     return render_template("attendance.html",user=user,date=date)
 
 @app.route('/time_attendance',methods=['POST','GET'])
@@ -118,13 +122,13 @@ def signup():
         cursor.execute("INSERT INTO user_login (name,email,password) VALUES ('{}', '{}', '{}');".format(username, email, password))
         user=cursor.fetchone()
         mysql.connection.commit()
-        if user:
-            return redirect('/login')
+        # if user:
+        return redirect('/membership')
     return render_template('signup.html')
 
 @app.route('/admin_login',methods=['GET','POST'])
 def admin_login():
-    message=''
+    mess=''
     if request.method=="POST" and request.form['email'] and request.form['password']:
         password=request.form['password']
         email=request.form['email']
@@ -134,15 +138,32 @@ def admin_login():
         if user:
             session["email"] = request.form.get("email")
             flash('Logged in successfully')
-            return redirect("/")
+            return redirect("/admin")
         else:
-            message='Enter proper credentials'   
-    return render_template('login.html',message=message)
+            mess='Enter proper credentials'   
+    return render_template('login.html',mess=mess)
+
+@app.route('/admin')
+def admin():
+    return render_template('a_index.html')
 
 @app.route("/logout")
 def logout():
     session["email"] = None
     return redirect("/")
+
+@app.route("/logout2")
+def logout2():
+    session["email"] = None
+    return redirect("/admin")
+
+@app.route("/admin_members")
+def admin_members():
+    cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("select * from members;") 
+    mysql.connection.commit()
+    user=cursor.fetchall()  
+    return render_template('a_members.html',user=user)
 
 if __name__=="__main__":
     app.run(debug=True,port=8000)

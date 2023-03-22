@@ -38,13 +38,13 @@
     <td>
       <div id="login-form-wrap">
     
-        <h2>User Login</h2>
-        {% if message is defined and message %}
+        <h2>User Login</h2> 
+        <form action="{{url_for('login')}}" id="login-form" method="post">
+          {% if message is defined and message %}
                           <div class="alert">
                               <h3>{{message}}</h3>
                           </div>
-                          {% endif %}  
-        <form action="{{url_for('login')}}" id="login-form" method="post">
+                          {% endif %} 
           <!-- <p>
           <input type="text" id="username" name="username" placeholder="Username" required><i class="validation"></i>
           </p> -->
@@ -67,13 +67,13 @@
   </div>
     <td>
       <div id="login-form-wrap">
-        <h2>Admin Login</h2>
-        {% if message is defined and message %}
-                          <div class="alert">
-                              <h3>{{message}}</h3>
-                          </div>
-                          {% endif %}  
+        <h2>Admin Login</h2> 
         <form action="{{url_for('admin_login')}}" id="login-form" method="post">
+          {% if mess is defined and mess %}
+        <div class="alert">
+            <h3>{{mess}}</h3>
+        </div>
+        {% endif %}
           <p>
             <input type="email" id="email" name="email" placeholder="Email" required><i class="validation"></i>
             </p>

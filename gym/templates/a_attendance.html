@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<div class="bg-div">
+    <a class="logo-img" href="{{url_for('admin')}}"><img height="22" width="22"  src="https://cdn-icons-png.flaticon.com/128/2936/2936886.png" alt="icon"></a>
+    <a class="web-name" href="{{url_for('admin')}}">Fit360</a> 
+    <nav>
+        <ul>
+            <li><a href="{{url_for('admin')}}">Home</a></li>
+            <li><a href="{{url_for('admin_members')}}">Members</a></li>
+            <!-- <li><a href="{{url_for('profile')}}">Profile</a></li>
+            <li><a href="{{url_for('attendance')}}">Attendance</a></li> -->
+            <li>{% block y %}
+                {% if session.email %}
+                    <a href="/logout2">Logout</a>
+                {% else %}
+                    <a href="/admin_login">Login</a>
+                {% endif %}
+                {% endblock %}</li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
